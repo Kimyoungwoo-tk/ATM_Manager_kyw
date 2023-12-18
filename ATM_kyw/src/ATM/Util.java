@@ -6,6 +6,11 @@ public class Util {
 Scanner sc = new Scanner(System.in);
 final String CUR_PATH = System.getProperty("user.dir")+"\\src\\ATM";
 //account.txt , client.txt
+String clientFileName = "client.txt";
+String accountFileName = "account.txt";
+
+
+
 
 
 void tempData() {
