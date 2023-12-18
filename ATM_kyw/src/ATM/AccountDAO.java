@@ -93,4 +93,57 @@ public class AccountDAO {
 		return data;
 	}
 	
+	boolean ckAccValue(String data) {
+		if(data.length() != 14) {
+			return false;
+		}
+		for(int i =0; i<data.length(); i+=1) {
+			if(i!=4 &&i!= 9 && data.charAt(i)!='-') {				
+			}else if(i ==4 ||i ==9) {
+				if(data.charAt(i)!= '-') {
+					return false;
+				}
+			}else {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	String getAccValue() {
+		while(true) {
+			String accNum = sc.getValue("계좌");
+			if(!ckAccValue(accNum)) {
+				System.out.println("올바른 계좌 형태가 아닙니다");
+				continue;
+			}
+			return accNum;
+		}
+	}
+	
+	void addClinetAcc(Client client) {
+		Account[] list = getAccListOneClient(client.id);
+		if(list.length ==3) {
+			System.out.println("최대 3개만 생성 가능");
+			return;
+		}
+		String acc = getAccValue();
+		if(getAccbyNum(acc)!=null) {
+			System.out.println("이미 존재하는 계좌번호 있음");
+			return;
+		}
+		addAccount(new Account(client.id,acc,0));
+		System.out.println(acc);
+		System.out.println("추가완료");
+	}
+	
+	Account getAccbyNum(String accNum) {
+		for(Account acc: accList) {
+			if(acc.accNumber.equals(accNum)) {
+				return acc;
+			}
+		}
+		return null;
+	}
+	
 }
