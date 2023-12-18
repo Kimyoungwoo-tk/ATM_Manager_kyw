@@ -48,7 +48,7 @@ public class BankController {
 			}else if(sel ==1) {
 				adminMenu();
 			}else if (sel ==2) {
-				
+				userMenu();
 			}
 			
 		}
@@ -99,9 +99,26 @@ public class BankController {
 				return;
 			}else if(sel ==1) {
 				System.out.println("회원가입");
+				cDAO.joinClient();
 			}else if(sel ==2) {
 				System.out.println("로그인");
+				if(cDAO.loginClient()) {
+					loginUserMenu();
+				}
 			}
+		}
+	}
+	
+	void loginUserMenu() {
+		while(true) {
+			System.out.println("1.계좌 추가");
+			System.out.println("2.계좌 삭제");
+			System.out.println("3.입금");
+			System.out.println("4.출금");
+			System.out.println("5.이체");
+			System.out.println("6.탈퇴");
+			System.out.println("7.마이페이지");
+			System.out.println("0.로그아웃");
 		}
 	}
 	

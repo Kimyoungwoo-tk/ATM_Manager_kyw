@@ -134,6 +134,53 @@ public class ClientDAO {
 	}
 	
 	
+	void joinClient() {
+		String id = sc.getValue("아이디");
+		if(getClientById(id)!= null) {
+			System.out.println("중복된 아이디 입니다");
+			return;
+		}
+		String pw = sc.getValue("비밀번호");
+		String name = sc.getValue("이름");
+		Client c = new Client(maxNo++, id, pw, name);
+		addClient(c);
+		System.out.println(name+"님 회원가입 완료");
+	}
+	
+	boolean loginClient() {
+		if(!hasData()) return false;
+		String id = sc.getValue("아이디");
+		Client c = getClientById(id);
+		if( c== null) {
+			System.out.println("없는 아이디 입니다");
+			return false;
+		}
+		String pw = sc.getValue("비번");
+		if(pw.equals(c.pw)) {
+			System.out.println("로그인 성공");
+			log = c;
+			return true;
+		}else{
+			System.out.println("로그인 실패");
+			return false;
+		}
+ 	}
+	
+	boolean deleteLogClient(AccountDAO aDAO) {
+		String pw = sc.getValue("비밀번호");
+		if(!log.pw.equals(pw)) {
+			System.out.println("비밀번호가 일치하지 않습니다");
+			return false;
+		}
+		int delIdx = getIdx(log);
+		removeClient(delIdx);
+		
+		aDAO.delAllAccOneClient(log);
+		
+		System.out.println("회원 삭제 완료");
+		log = null;
+		return true;
+	}
 	
 	
 	
