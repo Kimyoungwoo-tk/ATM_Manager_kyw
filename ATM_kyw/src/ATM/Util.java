@@ -1,5 +1,6 @@
 package ATM;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Util {
@@ -9,7 +10,23 @@ final String CUR_PATH = System.getProperty("user.dir")+"\\src\\ATM";
 String clientFileName = "client.txt";
 String accountFileName = "account.txt";
 
-
+int getValue(String msg, int start, int end) {
+	while(true) {
+		System.out.printf("%s 입력:",msg);
+		try {
+			int num = sc.nextInt();
+			sc.nextLine();
+			if(num<start || num> end) {
+				System.out.printf("%d~%d사이 값 입력 ",start,end);
+				continue;
+			}
+			return num;
+		} catch(InputMismatchException e) {
+			sc.nextLine();
+			System.out.println("숫자값만 입력");
+		}
+	}
+}
 
 
 
