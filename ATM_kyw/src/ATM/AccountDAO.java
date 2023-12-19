@@ -146,4 +146,80 @@ public class AccountDAO {
 		return null;
 	}
 	
+	Account getLogAcc(String id) {
+		Account[] list = getAccListOneClient(id);
+		if(list.length==0) {
+			System.out.println("계좌가 존재하지 않습니다");
+			return null;
+		}
+		while(true) {
+			String accNum = getAccValue();
+			Account acc = getAccbyNum(accNum);
+			if(acc == null) {
+				System.out.println("해당 계좌번호가 없음");
+				continue;
+			}
+			return acc;
+		}
+	}
+	
+	void delClientAcc(Client client) {
+		Account acc= getLogAcc(client.id);
+		removeAcc(getAccIdxByAcc(acc));
+		System.out.println("삭제 완료");
+	}
+	
+	void depositMoney(Client client) {
+		Account acc= getLogAcc(client.id);
+		if(acc == null) return;
+		int money = sc.getValue("입금", 100, 100000);
+		acc.money = money;
+		System.out.println(acc);
+		System.out.println("입금완료");
+	}
+	
+	void withdrawMoney(Client client) {
+		Account acc = getLogAcc(client.id);
+		if(acc ==null) return;
+		int money = sc.getValue("출금", 100, acc.money);
+		if(acc.money-money<0) {
+			System.out.println("잔액이 부족합니다");
+			return;
+		}
+		acc.money -= money;
+		System.out.println(acc);
+		System.out.println("출금완료");
+	}
+	
+	void transferMoney(Client client) {
+		Account myacc= getLogAcc(client.id);
+		if(myacc ==null) return;
+		Account youracc = getAccbyNum(getAccValue());
+		if(youracc == null) {
+			System.out.println("존재하지 않는 계좌번호");
+			return;
+		}
+		if(myacc == youracc) {
+			System.out.println("본인계좌 이체 불가");
+			return;
+		}
+		int money = sc.getValue("이체", 100, myacc.money);
+		if(myacc.money-money<0) {
+			System.out.println("잔액부족");
+			return;
+		}
+		myacc.money -= money;
+		youracc.money +=money;
+		System.out.println("이체완료");
+		
+	}
+	
+	void printMypage(Client client) {
+		Account[] list = getAccListOneClient(client.id);
+		for(Account acc : list) {
+			System.out.println(acc);
+		}
+		
+	}
+	
 }

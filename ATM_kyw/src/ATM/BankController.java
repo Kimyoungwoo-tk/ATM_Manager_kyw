@@ -31,7 +31,7 @@ public class BankController {
 		aDAO=new AccountDAO();
 		cDAO=new ClientDAO();
 		util=new Util();
-		util.tempData(cDAO, aDAO);
+		
 		mainMenu();
 	}
 	
@@ -119,6 +119,32 @@ public class BankController {
 			System.out.println("6.탈퇴");
 			System.out.println("7.마이페이지");
 			System.out.println("0.로그아웃");
+			int sel = util.getValue("", 0, 7);
+			if(sel ==0) {
+				cDAO.log = null;
+				return;
+			}else if(sel ==1) {
+				System.out.println("계좌추가");
+				aDAO.addClinetAcc(cDAO.log);
+			}else if(sel ==2) {
+				System.out.println("계좌삭제");
+				aDAO.delClientAcc(cDAO.log);
+			}else if(sel ==3) {
+				System.out.println("입금");
+				aDAO.depositMoney(cDAO.log);
+			}else if(sel ==4) {
+				System.out.println("출금");
+				aDAO.withdrawMoney(cDAO.log);
+			}else if(sel ==5) {
+				System.out.println("이체");
+				aDAO.transferMoney(cDAO.log);
+			}else if(sel ==6) {
+				System.out.println("탈퇴");
+				if(cDAO.deleteLogClient(aDAO)) return;
+			}else if(sel ==7) {
+				System.out.println("마이페이지");
+				aDAO.printMypage(cDAO.log);
+			}
 		}
 	}
 	
